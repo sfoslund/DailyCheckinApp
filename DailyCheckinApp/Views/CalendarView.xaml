@@ -2,24 +2,65 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xcViews="clr-namespace:XCalendar.Maui.Views;assembly=XCalendar.Maui"
-             x:Class="DailyCheckinApp.CalendarView">
+             xmlns:xcModels="clr-namespace:XCalendar.Core.Models;assembly=XCalendar.Core"
+             xmlns:xcInterfaces="clr-namespace:XCalendar.Core.Interfaces;assembly=XCalendar.Core"
+             x:Class="DailyCheckinApp.CalendarView"
+             xmlns:ViewModels="clr-namespace:DailyCheckinApp.ViewModels"
+             x:DataType="{x:Type ViewModels:CalendarViewModel}"
+             x:Name="This"
+             >
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-            <Label
-                Text="Calendar view"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
+        <StackLayout Margin="20" Spacing="20">
             <xcViews:CalendarView
                 Days="{Binding Calendar.Days}"
                 DaysOfWeek="{Binding Calendar.DayNamesOrder}"
-                NavigatedDate="{Binding Calendar.NavigatedDate}"/>
+                NavigatedDate="{Binding Calendar.NavigatedDate}"
+                BackwardsArrowCommand="{Binding NavigateCalendarCommand}"
+                BackwardsArrowCommandParameter="{Binding Calendar.BackwardsNavigationAmount}"
+                ForwardsArrowCommand="{Binding NavigateCalendarCommand}"
+                ForwardsArrowCommandParameter="{Binding Calendar.ForwardsNavigationAmount}"
+                Style="{StaticResource DefaultCalendarViewStyle}">
+                <xcViews:CalendarView.NavigationTemplate>
+                    <ControlTemplate>
+                        <xcViews:NavigationView
+                            BackwardsArrowCommand="{Binding BackwardsArrowCommand, Source={RelativeSource TemplatedParent}}"
+                            BackwardsArrowCommandParameter="{Binding BackwardsArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                            ForwardsArrowCommand="{Binding ForwardsArrowCommand, Source={RelativeSource TemplatedParent}}"
+                            ForwardsArrowCommandParameter="{Binding ForwardsArrowCommandParameter, Source={RelativeSource TemplatedParent}}"
+                            Style="{StaticResource DefaultNavigationViewStyle}"
+                            ArrowColor="Black"
+                            TextColor="Black"
+                            Text="{Binding Text, Source={RelativeSource TemplatedParent}}"/>
+                    </ControlTemplate>
+                </xcViews:CalendarView.NavigationTemplate>
+
+                <xcViews:CalendarView.DayTemplate>
+                    <DataTemplate x:DataType="{x:Type xcInterfaces:ICalendarDay}">
+                        <ContentView>
+                            <Border Margin="2.5" BackgroundColor="Transparent">
+                                <Border.StrokeShape>
+                                    <Ellipse/>
+                                </Border.StrokeShape>
+                                <xcViews:DayView
+                                    CurrentMonthCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
+                                    CurrentMonthCommandParameter="{Binding DateTime}"
+                                    DateTime="{Binding DateTime}"
+                                    IsCurrentMonth="{Binding IsCurrentMonth}"
+                                    IsInvalid="{Binding IsInvalid}"
+                                    IsSelected="{Binding IsSelected}"
+                                    IsToday="{Binding IsToday}"
+                                    SelectedCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
+                                    SelectedCommandParameter="{Binding DateTime}"
+                                    Style="{StaticResource DefaultDayViewStyle}"
+                                    TodayCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
+                                    TodayCommandParameter="{Binding DateTime}"
+                                    SelectedBackgroundColor="{StaticResource Primary}"/>
+                            </Border>
+                        </ContentView>
+                    </DataTemplate>
+                </xcViews:CalendarView.DayTemplate>
+            </xcViews:CalendarView>
 
             <Button
                 x:Name="EditCurrentCheckIn"
@@ -27,7 +68,7 @@
                 Clicked="OnEditCurrentCheckInClicked"
                 HorizontalOptions="Center" />
 
-        </VerticalStackLayout>
+        </StackLayout>
     </ScrollView>
 
 </ContentPage>
