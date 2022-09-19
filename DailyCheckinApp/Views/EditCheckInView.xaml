@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DailyCheckinApp.EditCheckInView">
+             x:Class="DailyCheckinApp.EditCheckInView"
+             xmlns:ViewModels="clr-namespace:DailyCheckinApp.ViewModels"
+             x:DataType="{x:Type ViewModels:EditCheckInViewModel}"
+             x:Name="This">
 
     <ScrollView>
         <VerticalStackLayout
@@ -10,9 +13,16 @@
             VerticalOptions="Center">
 
             <Label
-                Text="EditCheckInView"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
+                Text="{Binding CheckInDay.Date, StringFormat='{0:dddd, MMMM dd, yyyy}'}"
+                FontSize="20"
+                HorizontalOptions="Center" />
+
+            <Editor x:Name="Notes" Placeholder="Notes" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
+
+            <Button
+                x:Name="Save"
+                Text="Save"
+                Clicked="OnSaveClicked"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>

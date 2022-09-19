@@ -12,6 +12,8 @@ namespace DailyCheckinApp.ViewModels
             SelectionAction = XCalendar.Core.Enums.SelectionAction.Replace,
             SelectedDates = new ObservableRangeCollection<DateTime>() { DateTime.Today },
         };
+
+        private Func<DateTime, Task> OpenNewEditView;
         #endregion
 
         #region Commands
@@ -20,8 +22,9 @@ namespace DailyCheckinApp.ViewModels
         #endregion
 
         #region Constructors
-        public CalendarViewModel()
+        public CalendarViewModel(Func<DateTime, Task> openNewEditView)
         {
+            this.OpenNewEditView = openNewEditView;
             NavigateCalendarCommand = new Command<int>(NavigateCalendar);
             ChangeDateSelectionCommand = new Command<DateTime>(ChangeDateSelection);
         }
@@ -33,9 +36,10 @@ namespace DailyCheckinApp.ViewModels
             Calendar?.NavigateCalendar(Amount);
         }
 
-        public void ChangeDateSelection(DateTime DateTime)
+        public void ChangeDateSelection(DateTime date)
         {
-            Calendar?.ChangeDateSelection(DateTime);
+            Calendar?.ChangeDateSelection(date);
+            this.OpenNewEditView(date);
         }
         #endregion
     }

@@ -7,12 +7,17 @@ public partial class CalendarView : ContentPage
     public CalendarView()
 	{
 		InitializeComponent();
-        BindingContext = new CalendarViewModel();
+        BindingContext = new CalendarViewModel(this.OpenNewEditView);
 	}
+
+    private async Task OpenNewEditView(DateTime targetDate)
+    {
+        await Navigation.PushAsync(new EditCheckInView(targetDate));
+    }
 
     private async void OnEditCurrentCheckInClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new EditCheckInView());
+        await OpenNewEditView(DateTime.Today);
     }
 }
 
