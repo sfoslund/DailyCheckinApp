@@ -17,7 +17,7 @@
                 FontSize="20"
                 HorizontalOptions="Center" />
 
-            <Editor x:Name="Notes" Placeholder="Notes" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
+            <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
 
             <Button
                 x:Name="Save"

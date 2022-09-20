@@ -64,7 +64,7 @@
 
             <Button
                 x:Name="EditCurrentCheckIn"
-                Text="Check in"
+                Text="Check in for today"
                 Clicked="OnEditCurrentCheckInClicked"
                 HorizontalOptions="Center" />
 

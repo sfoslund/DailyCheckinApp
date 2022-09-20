@@ -18,7 +18,7 @@ public partial class EditCheckInView : ContentPage
 
     private void OnTextChanged(object sender, EventArgs e)
     {
-        this.ViewModel.UpdateNotes(e.ToString()); // TODO test
+        this.ViewModel.UpdateNotes((e as TextChangedEventArgs).NewTextValue);
     }
 
     private void OnSaveClicked(object sender, EventArgs e)

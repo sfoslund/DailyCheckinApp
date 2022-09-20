@@ -42,12 +42,7 @@ namespace DailyCheckinApp.Storage
 
         private void WriteFileContentAsync(string filePath, string content)
         {
-            using (FileStream outputStream = File.OpenWrite(filePath)) {
-                using (StreamWriter streamWriter = new StreamWriter(outputStream))
-                {
-                    streamWriter.Write(content);
-                }
-            }
+            File.WriteAllText(filePath, content);
         }
 
         private string GetFilePath(DateTime dateKey)
