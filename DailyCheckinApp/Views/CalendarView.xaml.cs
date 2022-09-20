@@ -1,18 +1,22 @@
-﻿using DailyCheckinApp.ViewModels;
+﻿using DailyCheckinApp.Storage;
+using DailyCheckinApp.ViewModels;
 
 namespace DailyCheckinApp;
 
 public partial class CalendarView : ContentPage
 {
+    private readonly ICheckInDayStore Store;
+
     public CalendarView()
 	{
-		InitializeComponent();
+        InitializeComponent();
+        this.Store = App.Current.Handler.MauiContext.Services.GetService<ICheckInDayStore>();
         BindingContext = new CalendarViewModel(this.OpenNewEditView);
 	}
 
     private async Task OpenNewEditView(DateTime targetDate)
     {
-        await Navigation.PushAsync(new EditCheckInView(targetDate));
+        await Navigation.PushAsync(new EditCheckInView(targetDate, this.Store));
     }
 
     private async void OnEditCurrentCheckInClicked(object sender, EventArgs e)

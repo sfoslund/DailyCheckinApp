@@ -1,15 +1,18 @@
-﻿using DailyCheckinApp.ViewModels;
+﻿using DailyCheckinApp.Storage;
+using DailyCheckinApp.ViewModels;
 
 namespace DailyCheckinApp;
 
 public partial class EditCheckInView : ContentPage
 {
     private readonly EditCheckInViewModel ViewModel;
+    private readonly ICheckInDayStore Store;
 
-	public EditCheckInView(DateTime targetDate)
+	public EditCheckInView(DateTime targetDate, ICheckInDayStore store)
 	{
 		InitializeComponent();
-        this.ViewModel = new EditCheckInViewModel(targetDate);
+        this.Store = store;
+        this.ViewModel = new EditCheckInViewModel(targetDate, this.Store);
         BindingContext = this.ViewModel;
     }
 
@@ -20,7 +23,7 @@ public partial class EditCheckInView : ContentPage
 
     private void OnSaveClicked(object sender, EventArgs e)
     {
-        // TODO add storage
+        this.ViewModel.SaveCheckIn();
     }
 }
 

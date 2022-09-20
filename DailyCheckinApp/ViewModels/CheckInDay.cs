@@ -1,14 +1,14 @@
 ﻿namespace DailyCheckinApp.ViewModels
 {
-    internal class CheckInDay
+    public class CheckInDay
     {
-        public CheckInDay(DateTime date)
-        {
-            this.Date = date;
-        }
-
         public DateTime Date { get; }
 
         public string Notes { get; set; }
+
+        public CheckInDay(DateTime date)
+        {
+            this.Date = date.Date;
+        }
     }
 }
