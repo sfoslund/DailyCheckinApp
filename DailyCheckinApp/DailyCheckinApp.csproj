@@ -70,6 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="PropertyChanged.Fody" Version="4.0.3" />
 	  <PackageReference Include="XCalendar.Maui" Version="4.1.0-pre1" />
 	</ItemGroup>
 

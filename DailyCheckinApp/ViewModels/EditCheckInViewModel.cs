@@ -23,7 +23,7 @@ namespace DailyCheckinApp.ViewModels
             var storeResult = this.Store.Read(date);
             if (storeResult == null)
             {
-                return new CheckInDay(date);
+                return new CheckInDay(date, new Color(1, 0, 0));
             }
             else
             {

@@ -11,7 +11,7 @@ public partial class CalendarView : ContentPage
 	{
         InitializeComponent();
         this.Store = App.Current.Handler.MauiContext.Services.GetService<ICheckInDayStore>();
-        BindingContext = new CalendarViewModel(this.OpenNewEditView);
+        BindingContext = new CalendarViewModel(this.OpenNewEditView, this.Store);
 	}
 
     private async Task OpenNewEditView(DateTime targetDate)

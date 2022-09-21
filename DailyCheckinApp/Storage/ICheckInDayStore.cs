@@ -7,5 +7,7 @@ namespace DailyCheckinApp.Storage
         public void Write(DateTime dateKey, CheckInDay value);
 
         public CheckInDay Read(DateTime dateKey);
+
+        public int[] GetDaysWithData(DateTime month);
     }
 }

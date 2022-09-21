@@ -21,6 +21,13 @@ namespace DailyCheckinApp.Storage
             return dayToCheckInMap.GetValueOrDefault(dateKey.Day);
         }
 
+        public int[] GetDaysWithData(DateTime month)
+        {
+            var filePath = GetFilePath(month);
+            var dayToCheckInMap = this.GetDayToCheckInMap(filePath);
+            return dayToCheckInMap.Keys.ToArray();
+        }
+
         private Dictionary<int, CheckInDay> GetDayToCheckInMap(string filePath)
         {
             if (File.Exists(filePath))

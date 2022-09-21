@@ -6,9 +6,12 @@
 
         public string Notes { get; set; }
 
-        public CheckInDay(DateTime date)
+        public Color Color { get; set; }
+
+        public CheckInDay(DateTime date, Color color)
         {
             this.Date = date.Date;
+            this.Color = color;
         }
     }
 }
