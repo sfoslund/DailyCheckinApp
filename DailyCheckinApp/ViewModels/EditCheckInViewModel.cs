@@ -1,5 +1,4 @@
 ﻿using DailyCheckinApp.Storage;
-using System.Text.Json;
 
 namespace DailyCheckinApp.ViewModels
 {
@@ -8,6 +7,10 @@ namespace DailyCheckinApp.ViewModels
         #region Properties
         public CheckInDay CheckInDay { get; set; }
 
+        public ColorOption[] Colors { get; }
+
+        public ColorOption SelectedColor { get; set; }
+
         private readonly ICheckInDayStore Store;
         #endregion
 
@@ -15,6 +18,14 @@ namespace DailyCheckinApp.ViewModels
         public EditCheckInViewModel(DateTime targetDate, ICheckInDayStore store)
         {
             this.Store = store;
+            this.Colors = new ColorOption[] {
+                new ColorOption("Purple", Color.Parse("purple")),
+                new ColorOption("Blue", Color.Parse("blue")),
+                new ColorOption("Green", Color.Parse("green")),
+                new ColorOption("Yellow", Color.Parse("yellow")),
+                new ColorOption("Orange", Color.Parse("orange")),
+                new ColorOption("Red", Color.Parse("red")),
+            };
             this.CheckInDay = this.LoadCheckInDay(targetDate);
         }
 
@@ -23,7 +34,7 @@ namespace DailyCheckinApp.ViewModels
             var storeResult = this.Store.Read(date);
             if (storeResult == null)
             {
-                return new CheckInDay(date, new Color(1, 0, 0));
+                return new CheckInDay(date);
             }
             else
             {
@@ -40,6 +51,7 @@ namespace DailyCheckinApp.ViewModels
 
         internal void SaveCheckIn()
         {
+            this.CheckInDay.Color = SelectedColor?.Color ?? Color.Parse("transparent");
             this.Store.Write(this.CheckInDay.Date, this.CheckInDay);
         }
         #endregion

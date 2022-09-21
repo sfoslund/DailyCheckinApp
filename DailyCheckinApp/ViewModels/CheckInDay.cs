@@ -8,10 +8,10 @@
 
         public Color Color { get; set; }
 
-        public CheckInDay(DateTime date, Color color)
+        public CheckInDay(DateTime date, Color color = null)
         {
             this.Date = date.Date;
-            this.Color = color;
+            this.Color = color ?? Color.Parse("transparent");
         }
     }
 }

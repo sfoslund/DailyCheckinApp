@@ -17,6 +17,8 @@
                 FontSize="20"
                 HorizontalOptions="Center" />
 
+            <Picker Title="Color" ItemsSource="{Binding Colors}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedColor}"/>
+
             <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
 
             <Button

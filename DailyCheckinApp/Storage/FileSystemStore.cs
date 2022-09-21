@@ -5,12 +5,16 @@ namespace DailyCheckinApp.Storage
 {
     internal class FileSystemStore : ICheckInDayStore
     {
+        private readonly static ColorJsonConverter ColorConverter = new ColorJsonConverter();
+
         public void Write(DateTime dateKey, CheckInDay value)
         {
             var filePath = GetFilePath(dateKey);
             var dayToCheckInMap = this.GetDayToCheckInMap(filePath);
             dayToCheckInMap[dateKey.Day] = value;
-            var serializedContent = JsonSerializer.Serialize(dayToCheckInMap);
+            var serializeOptions = new JsonSerializerOptions();
+            serializeOptions.Converters.Add(ColorConverter);
+            var serializedContent = JsonSerializer.Serialize(dayToCheckInMap, serializeOptions);
             WriteFileContentAsync(filePath, serializedContent);
         }
 
@@ -21,11 +25,10 @@ namespace DailyCheckinApp.Storage
             return dayToCheckInMap.GetValueOrDefault(dateKey.Day);
         }
 
-        public int[] GetDaysWithData(DateTime month)
+        public Dictionary<int, CheckInDay> ReadMonth(DateTime dateKey)
         {
-            var filePath = GetFilePath(month);
-            var dayToCheckInMap = this.GetDayToCheckInMap(filePath);
-            return dayToCheckInMap.Keys.ToArray();
+            var filePath = GetFilePath(dateKey);
+            return  this.GetDayToCheckInMap(filePath);
         }
 
         private Dictionary<int, CheckInDay> GetDayToCheckInMap(string filePath)
@@ -33,8 +36,14 @@ namespace DailyCheckinApp.Storage
             if (File.Exists(filePath))
             {
                 var fileContent = this.ReadFileContent(filePath);
-                var dayToCheckInMap = JsonSerializer.Deserialize<Dictionary<int, CheckInDay>>(fileContent);
-                return dayToCheckInMap ?? new Dictionary<int, CheckInDay>();
+                if (string.IsNullOrWhiteSpace(fileContent))
+                {
+                    return new Dictionary<int, CheckInDay>();
+                }
+                var deserializeOptions = new JsonSerializerOptions();
+                deserializeOptions.Converters.Add(ColorConverter);
+                var dayToCheckInMap = JsonSerializer.Deserialize<Dictionary<int, CheckInDay>>(fileContent, deserializeOptions);
+                return dayToCheckInMap;
             }
             else
             {

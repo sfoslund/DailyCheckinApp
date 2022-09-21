@@ -8,6 +8,6 @@ namespace DailyCheckinApp.Storage
 
         public CheckInDay Read(DateTime dateKey);
 
-        public int[] GetDaysWithData(DateTime month);
+        public Dictionary<int, CheckInDay> ReadMonth(DateTime dateKey);
     }
 }

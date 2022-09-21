@@ -47,11 +47,17 @@ namespace DailyCheckinApp.ViewModels
 
         private void SetDailyBackgroundColor(object sender = null, EventArgs e = null)
         {
-            var daysWithStoreData = this.Store.GetDaysWithData(Calendar.NavigatedDate);
+            var storeData = this.Store.ReadMonth(Calendar.NavigatedDate);
             foreach (var d in this.Calendar.Days)
             {
-                var color = d.IsSelected ? SelectedColor : daysWithStoreData.Contains(d.DateTime.Day) ? DataColor : NoDataColor;
-                d.CheckInData = new CheckInDay(d.DateTime, color);
+                if (storeData.ContainsKey(d.DateTime.Day))
+                {
+                    d.CheckInData = storeData[d.DateTime.Day];
+                }
+                else
+                {
+                    d.CheckInData = new CheckInDay(d.DateTime, d.IsSelected ? SelectedColor : NoDataColor);
+                }
             }
         }
         #endregion
