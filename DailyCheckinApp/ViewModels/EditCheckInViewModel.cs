@@ -12,19 +12,22 @@ namespace DailyCheckinApp.ViewModels
         public ColorOption SelectedColor { get; set; }
 
         private readonly ICheckInDayStore Store;
+
+        private Func<Task> ReturnNavigationCallback;
         #endregion
 
         #region Constructors
-        public EditCheckInViewModel(DateTime targetDate, ICheckInDayStore store)
+        public EditCheckInViewModel(DateTime targetDate, ICheckInDayStore store, Func<Task> returnNavigationCallback)
         {
             this.Store = store;
+            this.ReturnNavigationCallback = returnNavigationCallback;
             this.Colors = new ColorOption[] {
-                new ColorOption("Purple", Color.Parse("purple")),
-                new ColorOption("Blue", Color.Parse("blue")),
-                new ColorOption("Green", Color.Parse("green")),
-                new ColorOption("Yellow", Color.Parse("yellow")),
-                new ColorOption("Orange", Color.Parse("orange")),
-                new ColorOption("Red", Color.Parse("red")),
+                new ColorOption("Purple", Color.FromArgb("#d9d2e9")),
+                new ColorOption("Blue", Color.FromArgb("#9fc5e8")),
+                new ColorOption("Green", Color.FromArgb("#b1cba6")),
+                new ColorOption("Yellow", Color.FromArgb("#ffe599")),
+                new ColorOption("Orange", Color.FromArgb("#f9cb9c")),
+                new ColorOption("Red", Color.FromArgb("#ea9999")),
             };
             this.CheckInDay = this.LoadCheckInDay(targetDate);
         }
@@ -53,6 +56,7 @@ namespace DailyCheckinApp.ViewModels
         {
             this.CheckInDay.Color = SelectedColor?.Color ?? Color.Parse("transparent");
             this.Store.Write(this.CheckInDay.Date, this.CheckInDay);
+            this.ReturnNavigationCallback();
         }
         #endregion
     }

@@ -12,7 +12,7 @@ public partial class EditCheckInView : ContentPage
 	{
 		InitializeComponent();
         this.Store = store;
-        this.ViewModel = new EditCheckInViewModel(targetDate, this.Store);
+        this.ViewModel = new EditCheckInViewModel(targetDate, this.Store, this.ReturnNavigation);
         BindingContext = this.ViewModel;
     }
 
@@ -24,6 +24,11 @@ public partial class EditCheckInView : ContentPage
     private void OnSaveClicked(object sender, EventArgs e)
     {
         this.ViewModel.SaveCheckIn();
+    }
+
+    private async Task ReturnNavigation()
+    {
+        await Navigation.PopAsync();
     }
 }
 

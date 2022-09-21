@@ -21,8 +21,7 @@ namespace DailyCheckinApp.ViewModels
         private Func<DateTime, Task> OpenNewEditView;
         private ICheckInDayStore Store;
 
-        private static readonly Color SelectedColor = Color.FromArgb("#000080");
-        private static readonly Color DataColor = Color.FromArgb("#DFD8F7");
+        private static readonly Color SelectedColor = Color.FromArgb("#757575");
         private static readonly Color NoDataColor = Color.Parse("transparent");
 
         public event PropertyChangedEventHandler PropertyChanged;
