@@ -1,9 +1,13 @@
 ﻿using DailyCheckinApp.Models;
 using DailyCheckinApp.Storage;
+using PropertyChanged;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DailyCheckinApp.ViewModels
 {
-    internal class EditCheckInViewModel
+    [AddINotifyPropertyChangedInterface]
+    internal class EditCheckInViewModel : INotifyPropertyChanged
     {
         #region Properties
         public CheckInDay CheckInDay { get; set; }
@@ -15,6 +19,8 @@ namespace DailyCheckinApp.ViewModels
         private readonly ICheckInDayStore Store;
 
         private Func<Task> ReturnNavigationCallback;
+
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region Constructors
@@ -54,6 +60,11 @@ namespace DailyCheckinApp.ViewModels
             CheckInDay.Notes = notes;
         }
 
+        internal void UpdateHabit(string habit, bool value)
+        {
+            this.CheckInDay.Habits[habit] = value;
+        }
+
         internal void SaveCheckIn()
         {
             this.CheckInDay.Color = SelectedColor?.Color ?? Color.Parse("transparent");
@@ -64,7 +75,12 @@ namespace DailyCheckinApp.ViewModels
         private ColorOption GetSelectedColor(Color color)
         {
             return this.Colors.Where(c => c.Color.Equals(color)).FirstOrDefault();
-        } 
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+        }
         #endregion
     }
 }

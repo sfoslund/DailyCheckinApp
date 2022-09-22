@@ -19,6 +19,19 @@
 
             <Picker Title="Color" ItemsSource="{Binding Colors}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedColor}"/>
 
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding CheckInDay.Habits}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Key}" />
+                            <CheckBox IsChecked="{Binding Value}" CheckedChanged="OnCheckBoxChanged"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Label Text="{Binding CheckInDay.Habits.Count}"/>
+
             <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
 
             <Button
