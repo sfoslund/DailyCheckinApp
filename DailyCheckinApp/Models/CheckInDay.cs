@@ -1,4 +1,4 @@
-﻿namespace DailyCheckinApp.ViewModels
+﻿namespace DailyCheckinApp.Models
 {
     public class CheckInDay
     {
@@ -10,8 +10,8 @@
 
         public CheckInDay(DateTime date, Color color = null)
         {
-            this.Date = date.Date;
-            this.Color = color ?? Color.Parse("transparent");
+            Date = date.Date;
+            Color = color ?? Color.Parse("transparent");
         }
     }
 }

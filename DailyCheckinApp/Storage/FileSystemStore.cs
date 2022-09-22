@@ -1,4 +1,4 @@
-﻿using DailyCheckinApp.ViewModels;
+﻿using DailyCheckinApp.Models;
 using System.Text.Json;
 
 namespace DailyCheckinApp.Storage

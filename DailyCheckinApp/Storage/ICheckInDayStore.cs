@@ -1,4 +1,4 @@
-﻿using DailyCheckinApp.ViewModels;
+﻿using DailyCheckinApp.Models;
 
 namespace DailyCheckinApp.Storage
 {

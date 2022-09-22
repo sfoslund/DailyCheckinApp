@@ -1,4 +1,5 @@
-﻿using DailyCheckinApp.Storage;
+﻿using DailyCheckinApp.Models;
+using DailyCheckinApp.Storage;
 
 namespace DailyCheckinApp.ViewModels
 {
@@ -41,6 +42,7 @@ namespace DailyCheckinApp.ViewModels
             }
             else
             {
+                SelectedColor = this.GetSelectedColor(storeResult.Color);
                 return storeResult;
             }
         }
@@ -58,6 +60,11 @@ namespace DailyCheckinApp.ViewModels
             this.Store.Write(this.CheckInDay.Date, this.CheckInDay);
             this.ReturnNavigationCallback();
         }
+
+        private ColorOption GetSelectedColor(Color color)
+        {
+            return this.Colors.Where(c => c.Color.Equals(color)).FirstOrDefault();
+        } 
         #endregion
     }
 }

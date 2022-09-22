@@ -1,4 +1,5 @@
-﻿using DailyCheckinApp.Storage;
+﻿using DailyCheckinApp.Models;
+using DailyCheckinApp.Storage;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

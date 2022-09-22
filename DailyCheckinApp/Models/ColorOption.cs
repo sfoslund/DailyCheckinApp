@@ -1,4 +1,4 @@
-﻿namespace DailyCheckinApp.ViewModels
+﻿namespace DailyCheckinApp.Models
 {
     public class ColorOption
     {
@@ -8,8 +8,8 @@
 
         public ColorOption(string name, Color color)
         {
-            this.Name = name;
-            this.Color = color;
+            Name = name;
+            Color = color;
         }
     }
 }

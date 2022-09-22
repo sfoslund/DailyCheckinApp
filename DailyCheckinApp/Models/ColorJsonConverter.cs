@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DailyCheckinApp.ViewModels
+namespace DailyCheckinApp.Models
 {
     public class ColorJsonConverter : JsonConverter<Color>
     {

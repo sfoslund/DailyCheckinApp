@@ -1,6 +1,6 @@
 ﻿using XCalendar.Core.Models;
 
-namespace DailyCheckinApp.ViewModels
+namespace DailyCheckinApp.Models
 {
     public class UpdatableCalendarDay : CalendarDay
     {
