@@ -25,8 +25,8 @@ public partial class EditCheckInView : ContentPage
     private void OnCheckBoxChanged(object sender, EventArgs e)
     {
         var checkBox = sender as CheckBox;
-        var bindingContext = (KeyValuePair<string, bool>)checkBox.BindingContext;
-        this.ViewModel.UpdateHabit(bindingContext.Key, (e as CheckedChangedEventArgs).Value);
+        var bindingContext = (Habit)checkBox.BindingContext;
+        this.ViewModel.UpdateHabit(bindingContext.Name, (e as CheckedChangedEventArgs).Value);
     }
 
     private void OnSaveClicked(object sender, EventArgs e)

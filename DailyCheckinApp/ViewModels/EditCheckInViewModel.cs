@@ -62,7 +62,7 @@ namespace DailyCheckinApp.ViewModels
 
         internal void UpdateHabit(string habit, bool value)
         {
-            this.CheckInDay.Habits[habit] = value;
+            this.CheckInDay.Habits.Where(h => h.Name.Equals(habit)).First().Done = value;
         }
 
         internal void SaveCheckIn()

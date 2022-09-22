@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DailyCheckinApp.EditCheckInView"
              xmlns:ViewModels="clr-namespace:DailyCheckinApp.ViewModels"
+             xmlns:Models="clr-namespace:DailyCheckinApp.Models"
              x:DataType="{x:Type ViewModels:EditCheckInViewModel}"
              x:Name="This">
 
@@ -19,18 +20,16 @@
 
             <Picker Title="Color" ItemsSource="{Binding Colors}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedColor}"/>
 
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding CheckInDay.Habits}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Key}" />
-                            <CheckBox IsChecked="{Binding Value}" CheckedChanged="OnCheckBoxChanged"/>
-                        </VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding CheckInDay.Habits}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:Habit">
+                        <HorizontalStackLayout Margin="10" Spacing="10">
+                            <CheckBox IsChecked="{Binding Done}" CheckedChanged="OnCheckBoxChanged" VerticalOptions="Center"/>
+                            <Label Text="{Binding Name}" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
                     </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
-
-            <Label Text="{Binding CheckInDay.Habits.Count}"/>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
             <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" TextChanged="OnTextChanged" Completed="OnTextChanged"/>
 
