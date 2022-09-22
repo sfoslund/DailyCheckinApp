@@ -72,6 +72,11 @@
                 Clicked="OnEditCurrentCheckInClicked"
                 HorizontalOptions="Center" />
 
+            <Button
+                x:Name="UpdateHabits"
+                Text="Update habits"
+                Clicked="OnUpdateHabitsClicked"
+                HorizontalOptions="Center" />
         </StackLayout>
     </ScrollView>
 

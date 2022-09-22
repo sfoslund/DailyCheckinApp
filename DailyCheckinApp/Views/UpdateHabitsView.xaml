@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DailyCheckinApp.EditCheckInView"
+             x:Class="DailyCheckinApp.UpdateHabitsView"
              xmlns:ViewModels="clr-namespace:DailyCheckinApp.ViewModels"
              xmlns:Models="clr-namespace:DailyCheckinApp.Models"
-             x:DataType="{x:Type ViewModels:EditCheckInViewModel}"
+             x:DataType="{x:Type ViewModels:UpdateHabitsViewModel}"
              x:Name="This">
 
     <ScrollView>
@@ -14,24 +14,26 @@
             VerticalOptions="Center">
 
             <Label
-                Text="{Binding CheckInDay.Date, StringFormat='{0:dddd, MMMM dd, yyyy}'}"
+                Text="Update habits"
                 FontSize="20"
                 HorizontalOptions="Center" />
 
-            <Picker Title="Color" ItemsSource="{Binding Colors}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedColor}"/>
-
-            <CollectionView ItemsSource="{Binding CheckInDay.Habits}">
+            <CollectionView ItemsSource="{Binding Habits}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="Models:Habit">
+                    <DataTemplate>
                         <HorizontalStackLayout Margin="10" Spacing="10">
-                            <CheckBox IsChecked="{Binding Done}" CheckedChanged="OnCheckBoxChanged" VerticalOptions="Center"/>
-                            <Label Text="{Binding Name}" VerticalOptions="Center"/>
+                            <Entry Text="{Binding .}" Placeholder="Habit name" VerticalOptions="Center" Completed="OnTextChanged" />
+                            <Button Text="Delete" Clicked="OnDeleteClicked" VerticalOptions="Center" BindingContext="{Binding .}"/>
                         </HorizontalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" Completed="OnTextChanged"/>
+            <Button
+                x:Name="AddHabit"
+                Text="Add"
+                Clicked="OnAddClicked"
+                HorizontalOptions="Center" />
 
             <Button
                 x:Name="Save"

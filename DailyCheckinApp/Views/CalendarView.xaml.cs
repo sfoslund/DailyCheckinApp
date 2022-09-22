@@ -19,9 +19,19 @@ public partial class CalendarView : ContentPage
         await Navigation.PushAsync(new EditCheckInView(targetDate, this.Store));
     }
 
+    private async Task OpenNewUpdateHabitsView()
+    {
+        await Navigation.PushAsync(new UpdateHabitsView());
+    }
+
     private async void OnEditCurrentCheckInClicked(object sender, EventArgs e)
     {
         await OpenNewEditView(DateTime.Today);
+    }
+
+    private async void OnUpdateHabitsClicked(object sender, EventArgs e)
+    {
+        await OpenNewUpdateHabitsView();
     }
 }
 
