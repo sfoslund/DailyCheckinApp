@@ -48,6 +48,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ViewHabitsView.xaml.cs">
+	    <DependentUpon>ViewHabitsView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\UpdateHabitsView.xaml.cs">
 	    <DependentUpon>UpdateHabitsView.xaml</DependentUpon>
 	  </Compile>
@@ -60,6 +63,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\ViewHabitsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\UpdateHabitsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

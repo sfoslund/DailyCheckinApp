@@ -5,10 +5,10 @@
              xmlns:xcModels="clr-namespace:XCalendar.Core.Models;assembly=XCalendar.Core"
              xmlns:xcInterfaces="clr-namespace:XCalendar.Core.Interfaces;assembly=XCalendar.Core"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="DailyCheckinApp.CalendarView"
+             x:Class="DailyCheckinApp.ViewHabitsView"
              xmlns:ViewModels="clr-namespace:DailyCheckinApp.ViewModels"
              xmlns:Models="clr-namespace:DailyCheckinApp.Models"
-             x:DataType="{x:Type ViewModels:CalendarViewModel}"
+             x:DataType="{x:Type ViewModels:ViewHabitsViewModel}"
              x:Name="This"
              >
 
@@ -38,27 +38,21 @@
                 </xcViews:CalendarView.NavigationTemplate>
 
                 <xcViews:CalendarView.DayTemplate>
-                    <DataTemplate x:DataType="{x:Type Models:UpdatableCalendarDay}">
+                    <DataTemplate x:DataType="{x:Type Models:HabitTrackingCalendarDay}">
                         <ContentView>
                             <Border Margin="2.5" BackgroundColor="Transparent">
                                 <Border.StrokeShape>
                                     <Ellipse/>
                                 </Border.StrokeShape>
                                 <xcViews:DayView
-                                    CurrentMonthCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
                                     CurrentMonthCommandParameter="{Binding DateTime}"
                                     DateTime="{Binding DateTime}"
                                     IsCurrentMonth="{Binding IsCurrentMonth}"
                                     IsInvalid="{Binding IsInvalid}"
-                                    IsSelected="{Binding IsSelected}"
                                     IsToday="{Binding IsToday}"
-                                    SelectedCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
-                                    SelectedCommandParameter="{Binding DateTime}"
                                     Style="{StaticResource DefaultDayViewStyle}"
-                                    TodayCommand="{Binding BindingContext.ChangeDateSelectionCommand, Source={x:Reference This}}"
                                     TodayCommandParameter="{Binding DateTime}"
-                                    SelectedBackgroundColor="{Binding CheckInData.Color}"
-                                    CurrentMonthBackgroundColor="{Binding CheckInData.Color}">
+                                    CurrentMonthBackgroundColor="{Binding Color}">
                                 </xcViews:DayView>
                             </Border>
                         </ContentView>
@@ -66,23 +60,7 @@
                 </xcViews:CalendarView.DayTemplate>
             </xcViews:CalendarView>
 
-            <Button
-                x:Name="EditCurrentCheckIn"
-                Text="Check in today"
-                Clicked="OnEditCurrentCheckInClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="ViewHabits"
-                Text="View habits"
-                Clicked="OnViewHabitsClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="UpdateHabits"
-                Text="Update habits"
-                Clicked="OnUpdateHabitsClicked"
-                HorizontalOptions="Center" />
+            <Picker Title="Habit" ItemsSource="{Binding Habits}" ItemDisplayBinding="{Binding .}" SelectedItem="{Binding SelectedHabit}" SelectedIndexChanged="OnHabitChanged"/>
         </StackLayout>
     </ScrollView>
 
