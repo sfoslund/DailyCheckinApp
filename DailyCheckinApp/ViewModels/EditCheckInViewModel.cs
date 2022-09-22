@@ -16,7 +16,7 @@ namespace DailyCheckinApp.ViewModels
 
         public ColorOption SelectedColor { get; set; }
 
-        private readonly ICheckInDayStore Store;
+        private readonly IStore Store;
 
         private Func<Task> ReturnNavigationCallback;
 
@@ -24,7 +24,7 @@ namespace DailyCheckinApp.ViewModels
         #endregion
 
         #region Constructors
-        public EditCheckInViewModel(DateTime targetDate, ICheckInDayStore store, Func<Task> returnNavigationCallback)
+        public EditCheckInViewModel(DateTime targetDate, IStore store, Func<Task> returnNavigationCallback)
         {
             this.Store = store;
             this.ReturnNavigationCallback = returnNavigationCallback;
@@ -41,10 +41,11 @@ namespace DailyCheckinApp.ViewModels
 
         public CheckInDay LoadCheckInDay(DateTime date)
         {
-            var storeResult = this.Store.Read(date);
+            var storeResult = this.Store.ReadCheckIn(date);
             if (storeResult == null)
             {
-                return new CheckInDay(date);
+                var habits = this.Store.ReadHabits();
+                return new CheckInDay(date, habits.Select(h => new Habit(h, false)));
             }
             else
             {
@@ -68,7 +69,7 @@ namespace DailyCheckinApp.ViewModels
         internal void SaveCheckIn()
         {
             this.CheckInDay.Color = SelectedColor?.Color ?? Color.Parse("transparent");
-            this.Store.Write(this.CheckInDay.Date, this.CheckInDay);
+            this.Store.WriteCheckIn(this.CheckInDay.Date, this.CheckInDay);
             this.ReturnNavigationCallback();
         }
 

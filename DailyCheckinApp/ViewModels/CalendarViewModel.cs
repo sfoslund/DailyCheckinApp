@@ -20,7 +20,7 @@ namespace DailyCheckinApp.ViewModels
         };
 
         private Func<DateTime, Task> OpenNewEditView;
-        private ICheckInDayStore Store;
+        private IStore Store;
 
         private static readonly Color SelectedColor = Color.FromArgb("#757575");
         private static readonly Color NoDataColor = Color.Parse("transparent");
@@ -34,7 +34,7 @@ namespace DailyCheckinApp.ViewModels
         #endregion
 
         #region Constructors
-        public CalendarViewModel(Func<DateTime, Task> openNewEditView, ICheckInDayStore store)
+        public CalendarViewModel(Func<DateTime, Task> openNewEditView, IStore store)
         {
             this.OpenNewEditView = openNewEditView;
             this.Store = store;
@@ -47,7 +47,8 @@ namespace DailyCheckinApp.ViewModels
 
         private void SetDailyBackgroundColor(object sender = null, EventArgs e = null)
         {
-            var storeData = this.Store.ReadMonth(Calendar.NavigatedDate);
+            var storeData = this.Store.ReadMonthCheckIns(Calendar.NavigatedDate);
+            var habits = this.Store.ReadHabits();
             foreach (var d in this.Calendar.Days)
             {
                 if (storeData.ContainsKey(d.DateTime.Day))
@@ -56,7 +57,7 @@ namespace DailyCheckinApp.ViewModels
                 }
                 else
                 {
-                    d.CheckInData = new CheckInDay(d.DateTime, d.IsSelected ? SelectedColor : NoDataColor);
+                    d.CheckInData = new CheckInDay(d.DateTime, habits.Select(h => new Habit(h, false)), d.IsSelected ? SelectedColor : NoDataColor);
                 }
             }
         }

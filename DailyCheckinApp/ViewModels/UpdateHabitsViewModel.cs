@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using DailyCheckinApp.Storage;
+using PropertyChanged;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using XCalendar.Core.Models;
@@ -13,14 +14,17 @@ namespace DailyCheckinApp.ViewModels
 
         private Func<Task> ReturnNavigationCallback;
 
+        private IStore Store;
+
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region Constructors
-        public UpdateHabitsViewModel(Func<Task> returnNavigationCallback)
+        public UpdateHabitsViewModel(Func<Task> returnNavigationCallback, IStore store)
         {
             this.ReturnNavigationCallback = returnNavigationCallback;
-            this.Habits = new ObservableRangeCollection<string>() { "test1", "test2" }; // TODO load from store
+            this.Store = store;
+            this.Habits = new ObservableRangeCollection<string>(this.Store.ReadHabits());
         }
         #endregion
 
@@ -43,7 +47,7 @@ namespace DailyCheckinApp.ViewModels
 
         internal void SaveHabits()
         {
-            // TODO save to store
+            this.Store.WriteHabits(this.Habits);
             this.ReturnNavigationCallback();
         }
 

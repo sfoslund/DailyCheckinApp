@@ -1,4 +1,5 @@
 ﻿using DailyCheckinApp.Models;
+using DailyCheckinApp.Storage;
 using DailyCheckinApp.ViewModels;
 
 namespace DailyCheckinApp;
@@ -7,10 +8,10 @@ public partial class UpdateHabitsView : ContentPage
 {
     private readonly UpdateHabitsViewModel ViewModel;
 
-	public UpdateHabitsView()
+	public UpdateHabitsView(IStore store)
 	{
 		InitializeComponent();
-        this.ViewModel = new UpdateHabitsViewModel(this.ReturnNavigation);
+        this.ViewModel = new UpdateHabitsViewModel(this.ReturnNavigation, store);
         BindingContext = this.ViewModel;
     }
 
@@ -19,7 +20,10 @@ public partial class UpdateHabitsView : ContentPage
         var entry = sender as Entry;
         var oldHabit = (string)entry.BindingContext;
         var newHabit = entry.Text;
-        this.ViewModel.UpdateHabit(oldHabit, newHabit);
+        if (newHabit != null && !newHabit.Equals(oldHabit))
+        {
+            this.ViewModel.UpdateHabit(oldHabit, newHabit);
+        }
     }
 
     private void OnDeleteClicked(object sender, EventArgs e)

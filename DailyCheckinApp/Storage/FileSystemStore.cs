@@ -3,32 +3,54 @@ using System.Text.Json;
 
 namespace DailyCheckinApp.Storage
 {
-    internal class FileSystemStore : ICheckInDayStore
+    internal class FileSystemStore : IStore
     {
         private readonly static ColorJsonConverter ColorConverter = new ColorJsonConverter();
 
-        public void Write(DateTime dateKey, CheckInDay value)
+        public void WriteCheckIn(DateTime dateKey, CheckInDay value)
         {
-            var filePath = GetFilePath(dateKey);
+            var filePath = GetCheckInFilePath(dateKey);
             var dayToCheckInMap = this.GetDayToCheckInMap(filePath);
             dayToCheckInMap[dateKey.Day] = value;
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.Converters.Add(ColorConverter);
             var serializedContent = JsonSerializer.Serialize(dayToCheckInMap, serializeOptions);
-            WriteFileContentAsync(filePath, serializedContent);
+            WriteFileContent(filePath, serializedContent);
         }
 
-        public CheckInDay Read(DateTime dateKey)
+        public CheckInDay ReadCheckIn(DateTime dateKey)
         {
-            var filePath = GetFilePath(dateKey);
+            var filePath = GetCheckInFilePath(dateKey);
             var dayToCheckInMap = this.GetDayToCheckInMap(filePath);
             return dayToCheckInMap.GetValueOrDefault(dateKey.Day);
         }
 
-        public Dictionary<int, CheckInDay> ReadMonth(DateTime dateKey)
+        public Dictionary<int, CheckInDay> ReadMonthCheckIns(DateTime dateKey)
         {
-            var filePath = GetFilePath(dateKey);
-            return  this.GetDayToCheckInMap(filePath);
+            var filePath = GetCheckInFilePath(dateKey);
+            return this.GetDayToCheckInMap(filePath);
+        }
+
+        public void WriteHabits(IEnumerable<string> habits)
+        {
+            var filePath = GetHabitsFilePath();
+            var content = JsonSerializer.Serialize(habits);
+            WriteFileContent(filePath, content);
+        }
+
+        public IEnumerable<string> ReadHabits()
+        {
+            var filePath = GetHabitsFilePath();
+            if (File.Exists(filePath))
+            {
+                var content = ReadFileContent(filePath);
+                var habits = JsonSerializer.Deserialize<List<string>>(content);
+                return habits;
+            }
+            else
+            {
+                return new List<string>();
+            }
         }
 
         private Dictionary<int, CheckInDay> GetDayToCheckInMap(string filePath)
@@ -56,14 +78,19 @@ namespace DailyCheckinApp.Storage
             return File.ReadAllText(filePath);
         }
 
-        private void WriteFileContentAsync(string filePath, string content)
+        private void WriteFileContent(string filePath, string content)
         {
             File.WriteAllText(filePath, content);
         }
 
-        private string GetFilePath(DateTime dateKey)
+        private string GetCheckInFilePath(DateTime dateKey)
         {
             return Path.Combine(FileSystem.AppDataDirectory, $"CheckIns-{dateKey.ToString("MMMM")}-{dateKey.Year}.json");
+        }
+
+        private string GetHabitsFilePath()
+        {
+            return Path.Combine(FileSystem.AppDataDirectory, $"habits.json");
         }
     }
 }

@@ -31,7 +31,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" Completed="OnTextChanged"/>
+            <Editor x:Name="Notes" Placeholder="Notes" Text="{Binding CheckInDay.Notes}" Completed="OnTextChanged" TextChanged="OnTextChanged"/>
 
             <Button
                 x:Name="Save"

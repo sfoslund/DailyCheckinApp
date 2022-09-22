@@ -7,9 +7,9 @@ namespace DailyCheckinApp;
 public partial class EditCheckInView : ContentPage
 {
     private readonly EditCheckInViewModel ViewModel;
-    private readonly ICheckInDayStore Store;
+    private readonly IStore Store;
 
-	public EditCheckInView(DateTime targetDate, ICheckInDayStore store)
+	public EditCheckInView(DateTime targetDate, IStore store)
 	{
 		InitializeComponent();
         this.Store = store;

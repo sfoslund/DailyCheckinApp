@@ -5,12 +5,12 @@ namespace DailyCheckinApp;
 
 public partial class CalendarView : ContentPage
 {
-    private readonly ICheckInDayStore Store;
+    private readonly IStore Store;
 
     public CalendarView()
 	{
         InitializeComponent();
-        this.Store = App.Current.Handler.MauiContext.Services.GetService<ICheckInDayStore>();
+        this.Store = App.Current.Handler.MauiContext.Services.GetService<IStore>();
         BindingContext = new CalendarViewModel(this.OpenNewEditView, this.Store);
 	}
 
@@ -21,7 +21,7 @@ public partial class CalendarView : ContentPage
 
     private async Task OpenNewUpdateHabitsView()
     {
-        await Navigation.PushAsync(new UpdateHabitsView());
+        await Navigation.PushAsync(new UpdateHabitsView(this.Store));
     }
 
     private async void OnEditCurrentCheckInClicked(object sender, EventArgs e)
