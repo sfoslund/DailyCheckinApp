@@ -15,7 +15,7 @@
 		<ApplicationTitle>DailyCheckinApp</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.dailycheckinapp</ApplicationId>
+		<ApplicationId>sfoslund.dailycheckinapp</ApplicationId>
 		<ApplicationIdGuid>2890415A-8DB7-4D67-9093-B2105A4F9530</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -32,10 +32,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#757575" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -85,5 +85,13 @@
 	  <PackageReference Include="PropertyChanged.Fody" Version="4.0.3" />
 	  <PackageReference Include="XCalendar.Maui" Version="4.1.0-pre1" />
 	</ItemGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>myapp.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass></AndroidSigningKeyPass>
+    <AndroidSigningStorePass></AndroidSigningStorePass>
+  </PropertyGroup>
 
 </Project>

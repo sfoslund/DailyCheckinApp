@@ -14,6 +14,7 @@
 
     <ScrollView>
         <StackLayout Margin="20" Spacing="20">
+            <!-- The whole calendar view needs to be commented to run this on a physical device- otherwise it takes so long to load that it crashes -->
             <xcViews:CalendarView
                 Days="{Binding Calendar.Days}"
                 DaysOfWeek="{Binding Calendar.DayNamesOrder}"
